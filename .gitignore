@@ -1,0 +1,19 @@
+# .gitignore
+
+# Ignore Python byte-code
+__pycache__/
+*.py[cod]
+
+# Ignore Virtual Environments
+.venv/
+venv/
+env/
+
+# Ignore sensitive info
+.env
+
+# Ignore OS-generated files
+.DS_Store
+.vscode
+node_modules/
+*.log
