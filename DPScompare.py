@@ -44,7 +44,7 @@ def get_stats_input(iteration):
     elemental_bonus = float(input("Elemental Bonus (%): "))
     skill_bonus = float(input("Skill Bonus (%): "))
     other_bonuses = float(input("Other Bonuses (%): "))
-    crit_chance = float(input("Critical Hit Chance (CC) (%): "))
+    crit_chance = float(input("Criticaltesr(CC) (%): "))
     crit_damage = float(input("Critical Hit Damage (CD) (%): "))
     return atk, elemental_bonus, skill_bonus, other_bonuses, crit_chance, crit_damage
 

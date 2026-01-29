@@ -1,0 +1,29 @@
+Description,Iteration 1,Iteration 2
+DAMAGE CALCULATION FORMULAS,,
+,,
+Normal Hit Damage Formula:,,
+%DMG Bonus = 1 + (Elemental Bonus + Skill Bonus + Other Bonuses) / 100,,
+Normal DMG = ATK * %DMG Bonus,,
+,,
+Critical Hit Damage Formula:,,
+Crit Multiplier = 1 + (CD / 100),,
+Crit DMG = ATK * %DMG Bonus * Crit Multiplier,,
+,,
+Expected Average Damage Formula:,,
+Expected Crit Multiplier = 1 + (CC / 100) * (CD / 100),,
+Expected Avg DMG = ATK * %DMG Bonus * Expected Crit Multiplier,,
+,,
+INPUT VALUES,,
+Stat,Iteration 1,Iteration 2
+Attack (ATK),2111.00,2186.00
+Elemental Bonus (%),82.00,82.00
+Skill Bonus (%),44.20,54.30
+Other Bonuses (%),0.00,0.00
+Critical Hit Chance (CC) (%),81.40,82.00
+Critical Hit Damage (CD) (%),240.20,226.40
+,,
+CALCULATED RESULTS,,
+Stat,Iteration 1,Iteration 2
+Normal Hit Damage,4775.08,5165.52
+Critical Hit Damage,16244.83,16860.25
+Expected Average Damage,14111.46,14755.20
