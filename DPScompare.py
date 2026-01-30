@@ -85,6 +85,8 @@ else:
 # Create Excel workbook with formulas
 wb = Workbook()
 ws = wb.active
+if ws is None:
+    raise Exception("Failed to create a worksheet.")
 ws.title = "Damage Calculator"
 
 # Define styles
