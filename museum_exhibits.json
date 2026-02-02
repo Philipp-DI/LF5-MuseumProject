@@ -1,29 +1,11 @@
 [
     {
         "id": 1,
-        "name": "Spinnrad",
-        "creator": "Unbekannt",
-        "year": "Biedermeier",
-        "description": "Ein altes Spinnrad, staubig, aber gut erhalten. Perfekt f\u00fcr Handwerksaustellung",
-        "status": "In Storage",
+        "name": "test",
+        "creator": "ulli",
+        "year": "1578",
+        "description": "testvariante",
+        "status": "vor der T\u00fcr",
         "kh_epoche": "Unbekannt"
-    },
-    {
-        "id": 2,
-        "name": "R\u00f6mische M\u00fcnze",
-        "creator": "Unbekannt",
-        "year": "ca. 150 n. Chr.",
-        "description": "Eine r\u00f6mische M\u00fcnze aus der Zeit des Kaisers Augustus.",
-        "status": "On Display",
-        "kh_epoche": "Unbekannt"
-    },
-    {
-        "id": 3,
-        "name": "B\u00fcrgermeister-Urkunde",
-        "creator": "Stadt Oberdorfen",
-        "year": 1888,
-        "description": "Eine Urkunde des B\u00fcrgermeisters der Stadt Oberdorfen. ACHTUNG: Feuchtigkeitsschaden",
-        "status": "In Storage",
-        "kh_epoche": "Realismus"
     }
 ]

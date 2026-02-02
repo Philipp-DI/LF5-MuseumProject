@@ -39,8 +39,23 @@ class Exhibit:
     
 class Museum:
     def __init__(self):
-        self.exhibits = []
-        self.used_ids = set()
+            try:
+                with open("museum_exhibits.json", "r") as f:
+                    raw_data = js.load(f)
+                    # Hier passiert die Magie: Wir wandeln jedes Dict wieder in ein Objekt um
+                    self.exhibits = []
+                    for data in raw_data:
+                        # Wir entpacken das Dictionary mit ** direkt in den Konstruktor
+                        obj = Exhibit(data['name'], data['creator'], data['year'], 
+                                    data['description'], data['status'])
+                        self.exhibits.append(obj)
+                    
+                    print(f"Lade {len(self.exhibits)} Exponate als Objekte.")
+            except (FileNotFoundError, js.JSONDecodeError):
+                print("Keine valide Exponatliste gefunden. Starte leer.")
+                self.exhibits = []
+            
+            self.used_ids = set(ex.id for ex in self.exhibits)
 
     def add_exhibit(self, exhibit):
         if exhibit.id in self.used_ids:
@@ -52,25 +67,47 @@ class Museum:
         for exhibit in self.exhibits:
             print(exhibit.display_info())
 
-    def find_exhibit_by_creator(self, creator_name):
-        return [exhibit for exhibit in self.exhibits if exhibit.creator == creator_name]
-
-def main():
+def run_inventory_app():
     museum = Museum()
-
-    exhibit1 = Exhibit("Spinnrad", "Unbekannt", "Biedermeier", "Ein altes Spinnrad, staubig, aber gut erhalten. Perfekt für Handwerksaustellung", "In Storage")
-    exhibit2 = Exhibit("Römische Münze", "Unbekannt", "ca. 150 n. Chr.", "Eine römische Münze aus der Zeit des Kaisers Augustus.", "On Display")
-    exhibit3 = Exhibit("Bürgermeister-Urkunde", "Stadt Oberdorfen", 1888, "Eine Urkunde des Bürgermeisters der Stadt Oberdorfen. ACHTUNG: Feuchtigkeitsschaden", "In Storage")
-
-    museum.add_exhibit(exhibit1)
-    museum.add_exhibit(exhibit2)
-    museum.add_exhibit(exhibit3)
-
-    print("Alle Stücke im Museum:")
-    museum.list_exhibits()
-    js.dump([exhibit.__dict__ for exhibit in museum.exhibits], open("museum_exhibits.json", "w"), indent=4)
-    search_while_loop(museum)
+    print("CLI-based Museum Inventory App\n")
+    print("Möchten Sie Exponate hinzufügen [a], suchen [s] oder die Liste anzeigen [l]?")
+    choice = input("Warte auf Eingabe... (a/s/l)").lower()
+    if choice == "s":
+        search_while_loop(museum)
+        return
+    elif choice == "l":
+        museum.list_exhibits()
+        return
+    elif choice == "a":
+        pass
+    else:
+        print("Ungültige Eingabe. Beende Programm.")
+        return
     
+    running = True
+    while running:
+        action = input("\nNeues Exponat hinzufügen? (j/n): ").lower()
+        
+        if action == 'j':
+            name = input("Titel: ")
+            creator = input("Schöpfer/Künstler: ")
+            year = input("Jahr: ")
+            description = input("Beschreibung: ")
+            status = input("Status (z.B. Ausgestellt, Im Lager): ")
+            
+            new_exhibit = Exhibit(name, creator, year, description, status)
+            museum.add_exhibit(new_exhibit)
+            print(f"Hinzugefügt: {new_exhibit}")
+        
+        elif action != 'j':
+            running = False
+    
+    print("\nListe der Exponate im Museum:")
+    museum.list_exhibits()
+    print(f"\nGesamtanzahl: {len(museum.exhibits)} Exponate.")
+
+    js.dump([exhibit.__dict__ for exhibit in museum.exhibits], open("museum_exhibits.json", "w"), indent=4)
+
 def search_while_loop(museum):
 
     search_target = "peter".lower()
@@ -95,4 +132,4 @@ def search_while_loop(museum):
         print(f"Die Suche mit \"{search_target}\" ergab keine Treffer.")
         
 if __name__ == "__main__":
-    main()
+    run_inventory_app()
