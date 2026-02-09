@@ -1,0 +1,5 @@
+.venv
+.git
+.prettier*
+__pycache__
+.qodo
