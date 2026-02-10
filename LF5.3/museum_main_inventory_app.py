@@ -3,7 +3,9 @@
 import datetime as dt
 import random as rd
 import json as js
+import uuid
 
+# --- CLASSES ---
 class Exhibit:
     EPOCHEN = [
         (1945, 2026, "Zeitgenössische Kunst"),
@@ -17,10 +19,15 @@ class Exhibit:
     ]
     
     id_counter = 1
-    def __init__(self, title, creator, year, description, status):
-        self.id = Exhibit.id_counter
-        Exhibit.id_counter += 1
-        self.name = title
+    def __init__(self, title, creator, year, description, status, uid=None, id=None, **kwargs):
+        self._uid = uid or str(uuid.uuid4())
+        if id is not None:
+            self._id = id
+            Exhibit.id_counter = max(Exhibit.id_counter, id + 1)
+        else:
+            self._id = Exhibit.id_counter
+            Exhibit.id_counter += 1
+        self.title = title
         self.creator = creator
         self.year = year
         self.description = description
@@ -28,6 +35,10 @@ class Exhibit:
         self.kh_epoche = self.determine_epoch()
     
     def determine_epoch(self):
+        try:
+            self.year = int(self.year)
+        except ValueError:
+            self.year = self.year  # string is kept if conversion fails
         if isinstance(self.year, int):
             for start, end, kh_epoche in Exhibit.EPOCHEN:
                 if start <= self.year < end:
@@ -35,38 +46,42 @@ class Exhibit:
         return "Unbekannt"
 
     def display_info(self):
-        return f"ID: {self.id}\n Titel: {self.name}\n Schöpfer: {self.creator}\n Jahr/Epoche: {self.year}\n Beschreibung: {self.description}\n Status: {self.status}\n Kunsthistorische Epoche: {self.kh_epoche}\n"
+        return f"ID: {self._id}\n Titel: {self.title}\n Schöpfer: {self.creator}\n Jahr/Epoche: {self.year}\n Beschreibung: {self.description}\n Status: {self.status}\n Kunsthistorische Epoche: {self.kh_epoche}\n"
     
 class Museum:
     def __init__(self):
-            try:
-                with open("museum_exhibits.json", "r") as f:
-                    raw_data = js.load(f)
-                    # Hier passiert die Magie: Wir wandeln jedes Dict wieder in ein Objekt um
-                    self.exhibits = []
-                    for data in raw_data:
-                        # Wir entpacken das Dictionary mit ** direkt in den Konstruktor
-                        obj = Exhibit(data['name'], data['creator'], data['year'], 
-                                    data['description'], data['status'])
-                        self.exhibits.append(obj)
-                    
-                    print(f"Lade {len(self.exhibits)} Exponate als Objekte.")
-            except (FileNotFoundError, js.JSONDecodeError):
-                print("Keine valide Exponatliste gefunden. Starte leer.")
+        try:
+            with open("museum_exhibits.json", "r") as f:
+                raw_data = js.load(f)
+                # Hier passiert die Magie: Wir wandeln jedes Dict wieder in ein Objekt um
                 self.exhibits = []
-            
-            self.used_ids = set(ex.id for ex in self.exhibits)
+                for data in raw_data:
+                    # Wir entpacken das Dictionary mit ** direkt in den Konstruktor
+                    obj = Exhibit(**data)
+                    self.exhibits.append(obj)
+                
+                print(f"{len(self.exhibits)} Exponate geladen.")
+        except (FileNotFoundError, js.JSONDecodeError):
+            print("Keine valide Exponatliste gefunden. Starte leer.")
+            self.exhibits = []
+        
+        self.used_ids = set(ex._id for ex in self.exhibits)
 
     def add_exhibit(self, exhibit):
-        if exhibit.id in self.used_ids:
-            raise ValueError(f"ID {exhibit.id} ist bereits vergeben.")
-        self.used_ids.add(exhibit.id)
+        if exhibit._id in self.used_ids:
+            raise ValueError(f"ID {exhibit._id} ist bereits vergeben.")
+        self.used_ids.add(exhibit._id)
         self.exhibits.append(exhibit)
 
     def list_exhibits(self):
         for exhibit in self.exhibits:
             print(exhibit.display_info())
 
+
+
+# --- END of CLASSES ---
+
+# --- FUNCTIONALITY ---
 def run_inventory_app():
     museum = Museum()
 

@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "name": "R\u00f6mische M\u00fcnze",
+        "title": "R\u00f6mische M\u00fcnze",
         "creator": "",
         "year": "150",
         "description": "Gefunden 1988, schlechter Zustand, gr\u00fcnspan",
@@ -10,7 +10,7 @@
     },
     {
         "id": 2,
-        "name": "Spinnrad",
+        "title": "Spinnrad",
         "creator": "Unbekannt",
         "year": "Unbekannt",
         "description": "Guter Zustand, perfekt f\u00fcr Handwerksausstellung",
@@ -19,7 +19,7 @@
     },
     {
         "id": 3,
-        "name": "B\u00fcrgermeister-Urkunde",
+        "title": "B\u00fcrgermeister-Urkunde",
         "creator": "Stadt",
         "year": "1888",
         "description": "Feuchtigkeitsschaden, Spende von Fam. Schmidt",
