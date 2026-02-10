@@ -45,7 +45,19 @@ class Exhibit:
             for start, end, kh_epoche in Exhibit.EPOCHEN:
                 if start <= self.year < end:
                     return kh_epoche
-        return "Unbekannt"        
+        return "Unbekannt"
+    
+    def update(self, title, creator, year, description, status, **kwargs):
+        self.title = title
+        self.creator = creator
+        self.year = year
+        self.description = description
+        self.status = status
+        self.kh_epoche = self.determine_epoch()
+        try:
+            self.year = int(self.year)
+        except ValueError:
+            self.year = self.year  # string is kept if conversion fails
 
     def display_info(self):
         return f"ID: {self._id}\n Titel: {self.title}\n Schöpfer: {self.creator}\n Jahr/Epoche: {self.year}\n Beschreibung: {self.description}\n Status: {self.status}\n Kunsthistorische Epoche: {self.kh_epoche}\n"
@@ -78,8 +90,13 @@ class Museum:
     def list_exhibits(self):
         for exhibit in self.exhibits:
             print(exhibit.display_info())
-
-
+            
+    def get_exhibit_by_id(self, target_id):
+        for ex in self.exhibits:
+            if ex._id == target_id:
+                return ex
+        return None
+        
 
 # --- END of CLASSES ---
 
@@ -91,7 +108,7 @@ def run_inventory_app():
         print("\nCLI-based Museum Inventory App")
         print("[a] Exponat hinzufügen")
         print("[s] Exponat suchen")
-        print("[l] Alle Exponate anzeigen")
+        print("[l] Alle Exponate anzeigen oder editieren")
         print("[q] Speichern & Programm beenden")
 
         choice = input("Auswahl (a/s/l/q): ").strip().lower()
@@ -116,38 +133,36 @@ def run_inventory_app():
 
 def add_exhibits_flow(museum: Museum):
     while True:
-        action = input("\nNeues Exponat hinzufügen? (j/n): ").strip().lower()
-
-        if action == 'j':
-            title = input("Titel: ")
-            creator = input("Schöpfer/Künstler: ")
-            year_raw = input("Jahr: ")
-            description = input("Beschreibung: ")
-            print("Status wählen:")
-            for i, status in enumerate(Exhibit.STATUS_OPTIONS,1):
-                print(f"[{i}]{status}\n")
-            while True:
-                try:
-                    choice = int(input())
-                    selected_status = Exhibit.STATUS_OPTIONS[choice - 1]
-                    break
-                except (ValueError, IndexError):
-                    print("Ungültige Eingabe. Nummer aus Liste wählen.")
-            status = selected_status
-
-            # Optional: convert year to int
+        title = input("Titel: ")
+        creator = input("Schöpfer/Künstler: ")
+        year_raw = input("Jahr: ")
+        description = input("Beschreibung: ")
+        print("Status wählen:")
+        for i, status in enumerate(Exhibit.STATUS_OPTIONS,1):
+            print(f"[{i}]{status}\n")
+        while True:
             try:
-                year = int(year_raw)
-            except ValueError:
-                year = year_raw  # string is kept if conversion fails
+                choice = int(input())
+                selected_status = Exhibit.STATUS_OPTIONS[choice - 1]
+                break
+            except (ValueError, IndexError):
+                print("Ungültige Eingabe. Nummer aus Liste wählen.")
+        status = selected_status
 
-            new_exhibit = Exhibit(title, creator, year, description, status)
-            museum.add_exhibit(new_exhibit)
-            print(f"Hinzugefügt:\n{new_exhibit.display_info()}")
-        elif action == 'n':
-            break
+        # Optional: convert year to int
+        try:
+            year = int(year_raw)
+        except ValueError:
+            year = year_raw  # string is kept if conversion fails
+
+        new_exhibit = Exhibit(title, creator, year, description, status)
+        museum.add_exhibit(new_exhibit)
+        print(f"Hinzugefügt:\n{new_exhibit.display_info()}")
+        exit = input("Weiteres hinzufügen [a] oder zurück zum Menü: ").strip().lower()
+        if exit != "a":
+            return
         else:
-            print("Bitte 'j' oder 'n' eingeben.")
+            pass
 
 def search_while_loop(museum):
 
@@ -171,6 +186,25 @@ def search_while_loop(museum):
         print(f"\nSuche mit \"{search_target}\" ergab Treffer:\n{found_exhibit.display_info()}")
     else:
         print(f"\nDie Suche mit \"{search_target}\" ergab keine Treffer.")
+ 
+def edit_exhibit_flow(museum):
+    try:
+        target_id = int(input("Welche ID möchten Sie bearbeiten? "))
+        exhibit = museum.get_exhibit_by_id(target_id)
         
+        if exhibit:
+            print(f"Bearbeite: {exhibit.title}")
+            # Re-use the input logic to get new values
+            new_title = input(f"Neuer Titel [{exhibit.title}]: ") or exhibit.title
+            # ... repeat for other fields ...
+            
+            # Call the renovation method we discussed
+            exhibit.update(new_title, ...) 
+            print("Änderungen gespeichert.")
+        else:
+            print("ID nicht gefunden.")
+    except ValueError:
+        print("Bitte eine gültige Nummer eingeben.")  
+    
 if __name__ == "__main__":
     run_inventory_app()
