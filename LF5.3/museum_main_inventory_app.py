@@ -69,48 +69,62 @@ class Museum:
 
 def run_inventory_app():
     museum = Museum()
-    print("CLI-based Museum Inventory App\n")
-    print("Möchten Sie Exponate hinzufügen [a], suchen [s] oder die Liste anzeigen [l]?")
-    choice = input("Warte auf Eingabe... (a/s/l)").lower()
-    if choice == "s":
-        search_while_loop(museum)
-        return
-    elif choice == "l":
-        museum.list_exhibits()
-        return
-    elif choice == "a":
-        pass
-    else:
-        print("Ungültige Eingabe. Beende Programm.")
-        return
-    
-    running = True
-    while running:
-        action = input("\nNeues Exponat hinzufügen? (j/n): ").lower()
-        
+
+    while True:
+        print("\nCLI-based Museum Inventory App")
+        print("[a] Exponat hinzufügen")
+        print("[s] Exponat suchen")
+        print("[l] Alle Exponate anzeigen")
+        print("[q] Programm beenden")
+
+        choice = input("Auswahl (a/s/l/q): ").strip().lower()
+
+        if choice == "a":
+            add_exhibits_flow(museum)
+        elif choice == "s":
+            search_while_loop(museum)
+        elif choice == "l":
+            museum.list_exhibits()
+        elif choice == "q":
+            # saving
+            js.dump(
+                [exhibit.__dict__ for exhibit in museum.exhibits],
+                open("museum_exhibits.json", "w"),
+                indent=4,
+            )
+            print("Programm wird beendet.")
+            break
+        else:
+            print("Ungültige Eingabe. Bitte a, s, l oder q wählen.")
+
+def add_exhibits_flow(museum: Museum):
+    while True:
+        action = input("\nNeues Exponat hinzufügen? (j/n): ").strip().lower()
+
         if action == 'j':
             name = input("Titel: ")
             creator = input("Schöpfer/Künstler: ")
-            year = input("Jahr: ")
+            year_raw = input("Jahr: ")
             description = input("Beschreibung: ")
             status = input("Status (z.B. Ausgestellt, Im Lager): ")
-            
+
+            # Optional: convert year to int
+            try:
+                year = int(year_raw)
+            except ValueError:
+                year = year_raw  # string is kept if conversion fails
+
             new_exhibit = Exhibit(name, creator, year, description, status)
             museum.add_exhibit(new_exhibit)
-            print(f"Hinzugefügt: {new_exhibit}")
-        
-        elif action != 'j':
-            running = False
-    
-    print("\nListe der Exponate im Museum:")
-    museum.list_exhibits()
-    print(f"\nGesamtanzahl: {len(museum.exhibits)} Exponate.")
-
-    js.dump([exhibit.__dict__ for exhibit in museum.exhibits], open("museum_exhibits.json", "w"), indent=4)
+            print(f"Hinzugefügt:\n{new_exhibit.display_info()}")
+        elif action == 'n':
+            break
+        else:
+            print("Bitte 'j' oder 'n' eingeben.")
 
 def search_while_loop(museum):
 
-    search_target = "peter".lower()
+    search_target = input("Suchbegriff eingeben: ").lower()
     index = 0
     found_exhibit = None 
 
@@ -127,9 +141,9 @@ def search_while_loop(museum):
             index += 1
 
     if found_exhibit:
-        print(f"Suche mit \"{search_target}\" ergab Treffer:\n{found_exhibit.display_info()}")
+        print(f"\nSuche mit \"{search_target}\" ergab Treffer:\n{found_exhibit.display_info()}")
     else:
-        print(f"Die Suche mit \"{search_target}\" ergab keine Treffer.")
+        print(f"\nDie Suche mit \"{search_target}\" ergab keine Treffer.")
         
 if __name__ == "__main__":
     run_inventory_app()

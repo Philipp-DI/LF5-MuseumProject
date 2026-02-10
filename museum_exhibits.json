@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "name": "R\u00f6mische M\u00fcnze",
+        "creator": "",
+        "year": "150",
+        "description": "Gefunden 1988, schlechter Zustand, gr\u00fcnspan",
+        "status": "Im Lager",
+        "kh_epoche": "Unbekannt"
+    },
+    {
+        "id": 2,
+        "name": "Spinnrad",
+        "creator": "Unbekannt",
+        "year": "Unbekannt",
+        "description": "Guter Zustand, perfekt f\u00fcr Handwerksausstellung",
+        "status": "Im Lager",
+        "kh_epoche": "Unbekannt"
+    },
+    {
+        "id": 3,
+        "name": "B\u00fcrgermeister-Urkunde",
+        "creator": "Stadt",
+        "year": "1888",
+        "description": "Feuchtigkeitsschaden, Spende von Fam. Schmidt",
+        "status": "Im Lager",
+        "kh_epoche": "Unbekannt"
+    }
+]
