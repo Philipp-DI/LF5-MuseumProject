@@ -18,6 +18,8 @@ class Exhibit:
         (-3000, 500, "Antike")
     ]
     
+    STATUS_OPTIONS = ["Im Lager", "Ausgestellt", "Ungewiss"]
+    
     id_counter = 1
     def __init__(self, title, creator, year, description, status, uid=None, id=None, **kwargs):
         self._uid = uid or str(uuid.uuid4())
@@ -43,7 +45,7 @@ class Exhibit:
             for start, end, kh_epoche in Exhibit.EPOCHEN:
                 if start <= self.year < end:
                     return kh_epoche
-        return "Unbekannt"
+        return "Unbekannt"        
 
     def display_info(self):
         return f"ID: {self._id}\n Titel: {self.title}\n Schöpfer: {self.creator}\n Jahr/Epoche: {self.year}\n Beschreibung: {self.description}\n Status: {self.status}\n Kunsthistorische Epoche: {self.kh_epoche}\n"
@@ -90,7 +92,7 @@ def run_inventory_app():
         print("[a] Exponat hinzufügen")
         print("[s] Exponat suchen")
         print("[l] Alle Exponate anzeigen")
-        print("[q] Programm beenden")
+        print("[q] Speichern & Programm beenden")
 
         choice = input("Auswahl (a/s/l/q): ").strip().lower()
 
@@ -121,7 +123,17 @@ def add_exhibits_flow(museum: Museum):
             creator = input("Schöpfer/Künstler: ")
             year_raw = input("Jahr: ")
             description = input("Beschreibung: ")
-            status = input("Status (z.B. Ausgestellt, Im Lager): ")
+            print("Status wählen:")
+            for i, status in enumerate(Exhibit.STATUS_OPTIONS,1):
+                print(f"[{i}]{status}\n")
+            while True:
+                try:
+                    choice = int(input())
+                    selected_status = Exhibit.STATUS_OPTIONS[choice - 1]
+                    break
+                except (ValueError, IndexError):
+                    print("Ungültige Eingabe. Nummer aus Liste wählen.")
+            status = selected_status
 
             # Optional: convert year to int
             try:

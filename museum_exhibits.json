@@ -1,6 +1,6 @@
 [
     {
-        "_uid": "a6d75dde-3248-42d2-b2d9-438c3fd9141e",
+        "_uid": "e2d71abd-ca7d-4d18-8536-cf4c5375c6ca",
         "_id": 1,
         "title": "R\u00f6mische M\u00fcnze",
         "creator": "",
@@ -10,7 +10,7 @@
         "kh_epoche": "Antike"
     },
     {
-        "_uid": "95db9c88-a263-4e43-88d8-ff72bf15b671",
+        "_uid": "53a9cf5e-58a5-486c-9b2c-7798764d9026",
         "_id": 2,
         "title": "Spinnrad",
         "creator": "Unbekannt",
@@ -20,7 +20,7 @@
         "kh_epoche": "Unbekannt"
     },
     {
-        "_uid": "c8dbbfdf-a6f5-4e95-9d1c-75fffc0fbc47",
+        "_uid": "823319fb-2930-4a31-8470-9886edca9e8c",
         "_id": 3,
         "title": "B\u00fcrgermeister-Urkunde",
         "creator": "Stadt",
@@ -28,5 +28,15 @@
         "description": "Feuchtigkeitsschaden, Spende von Fam. Schmidt",
         "status": "Im Lager",
         "kh_epoche": "Realismus"
+    },
+    {
+        "_uid": "5eece6a3-d84f-46bc-a1b4-e17c77f25ded",
+        "_id": 4,
+        "title": "Test1",
+        "creator": "Frau Testi",
+        "year": 1754,
+        "description": "loooama",
+        "status": "Ausgestellt",
+        "kh_epoche": "Klassizismus / Romantik"
     }
 ]
