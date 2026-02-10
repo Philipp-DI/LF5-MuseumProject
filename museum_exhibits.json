@@ -1,15 +1,17 @@
 [
     {
-        "id": 1,
+        "_uid": "a6d75dde-3248-42d2-b2d9-438c3fd9141e",
+        "_id": 1,
         "title": "R\u00f6mische M\u00fcnze",
         "creator": "",
-        "year": "150",
+        "year": 150,
         "description": "Gefunden 1988, schlechter Zustand, gr\u00fcnspan",
         "status": "Im Lager",
-        "kh_epoche": "Unbekannt"
+        "kh_epoche": "Antike"
     },
     {
-        "id": 2,
+        "_uid": "95db9c88-a263-4e43-88d8-ff72bf15b671",
+        "_id": 2,
         "title": "Spinnrad",
         "creator": "Unbekannt",
         "year": "Unbekannt",
@@ -18,12 +20,13 @@
         "kh_epoche": "Unbekannt"
     },
     {
-        "id": 3,
+        "_uid": "c8dbbfdf-a6f5-4e95-9d1c-75fffc0fbc47",
+        "_id": 3,
         "title": "B\u00fcrgermeister-Urkunde",
         "creator": "Stadt",
-        "year": "1888",
+        "year": 1888,
         "description": "Feuchtigkeitsschaden, Spende von Fam. Schmidt",
         "status": "Im Lager",
-        "kh_epoche": "Unbekannt"
+        "kh_epoche": "Realismus"
     }
 ]

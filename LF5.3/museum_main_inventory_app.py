@@ -33,12 +33,12 @@ class Exhibit:
         self.description = description
         self.status = status
         self.kh_epoche = self.determine_epoch()
-    
-    def determine_epoch(self):
         try:
             self.year = int(self.year)
         except ValueError:
             self.year = self.year  # string is kept if conversion fails
+    
+    def determine_epoch(self):
         if isinstance(self.year, int):
             for start, end, kh_epoche in Exhibit.EPOCHEN:
                 if start <= self.year < end:
@@ -117,7 +117,7 @@ def add_exhibits_flow(museum: Museum):
         action = input("\nNeues Exponat hinzufügen? (j/n): ").strip().lower()
 
         if action == 'j':
-            name = input("Titel: ")
+            title = input("Titel: ")
             creator = input("Schöpfer/Künstler: ")
             year_raw = input("Jahr: ")
             description = input("Beschreibung: ")
@@ -129,7 +129,7 @@ def add_exhibits_flow(museum: Museum):
             except ValueError:
                 year = year_raw  # string is kept if conversion fails
 
-            new_exhibit = Exhibit(name, creator, year, description, status)
+            new_exhibit = Exhibit(title, creator, year, description, status)
             museum.add_exhibit(new_exhibit)
             print(f"Hinzugefügt:\n{new_exhibit.display_info()}")
         elif action == 'n':
@@ -146,7 +146,7 @@ def search_while_loop(museum):
     while index < len(museum.exhibits) and found_exhibit is None:
         current_exhibit = museum.exhibits[index]
         
-        if (search_target in current_exhibit.name.lower() or
+        if (search_target in current_exhibit.title.lower() or
             search_target in current_exhibit.creator.lower() or
             search_target in str(current_exhibit.year).lower() or
             search_target in current_exhibit.description.lower() or
