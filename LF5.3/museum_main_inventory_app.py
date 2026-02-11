@@ -35,7 +35,6 @@ class Exhibit:
         self.year = year
         self.description = description
         self.status = status
-        self.kh_epoche = self.determine_epoch()
         self.year_epoch_helper()
     
     def determine_epoch(self):
@@ -141,29 +140,29 @@ def run_inventory_app():
         else:
             print("Ungültige Eingabe. Bitte a, s, l oder q wählen.")
 
+def status_selector(current_status=None):
+    suffix = f" [Aktueller Status: {current_status}]" if current_status else ""
+    print(f"Status wählen{suffix}:")
+    for i, status in enumerate(Exhibit.STATUS_OPTIONS,1):
+        print(f"[{i}]{status}\n")
+    while True:
+        user_input = input("Wählen oder Enter zum Beibehalten: ").strip()
+        if current_status and not user_input:
+            return current_status
+        
+        try:
+            choice = int(input())
+            return Exhibit.STATUS_OPTIONS[choice - 1]
+        except (ValueError, IndexError):
+            print("Ungültige Eingabe. Nummer aus Liste wählen.")
+
 def add_exhibits_flow(museum: Museum):
     while True:
         title = input("Titel: ")
         creator = input("Schöpfer/Künstler: ")
-        year_raw = input("Jahr: ")
+        year = input("Jahr: ")
         description = input("Beschreibung: ")
-        print("Status wählen:")
-        for i, status in enumerate(Exhibit.STATUS_OPTIONS,1):
-            print(f"[{i}]{status}\n")
-        while True:
-            try:
-                choice = int(input())
-                selected_status = Exhibit.STATUS_OPTIONS[choice - 1]
-                break
-            except (ValueError, IndexError):
-                print("Ungültige Eingabe. Nummer aus Liste wählen.")
-        status = selected_status
-
-        # Optional: convert year to int
-        try:
-            year = int(year_raw)
-        except ValueError:
-            year = year_raw  # string is kept if conversion fails
+        status = status_selector()
 
         new_exhibit = Exhibit(title, creator, year, description, status)
         museum.add_exhibit(new_exhibit)
@@ -175,7 +174,6 @@ def add_exhibits_flow(museum: Museum):
             pass
 
 def search_while_loop(museum):
-
     search_target = input("Suchbegriff eingeben: ").lower()
     index = 0
     found_exhibit = None 
@@ -209,9 +207,9 @@ def update_exhibit_flow(museum):
             new_creator = input(f"Neuer Schöpfer [{exhibit.creator}]: ") or exhibit.creator
             new_year = input(f"Neues Jahr [{exhibit.year}]: ") or exhibit.year
             new_description = input(f"Neue Beschreibung [{exhibit.description}]: ") or exhibit.description
-            new_status = input(f"Neuer Status [{exhibit.status}]: ") or exhibit.status
+            new_status = status_selector(exhibit.status)
             # Call the renovation method we discussed
-            exhibit.update(new_title, new_creator, new_year, new_description, new_status) 
+            exhibit.update(new_title, new_creator, new_year, new_description, new_status)
             print("Änderungen gespeichert.")
         else:
             print("ID nicht gefunden.")
