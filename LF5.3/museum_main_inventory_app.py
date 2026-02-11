@@ -21,14 +21,15 @@ class Exhibit:
     STATUS_OPTIONS = ["Im Lager", "Ausgestellt", "Ungewiss"]
     
     id_counter = 1
-    def __init__(self, title, creator, year, description, status, uid=None, id=None, **kwargs):
-        self._uid = uid or str(uuid.uuid4())
-        if id is not None:
-            self._id = id
-            Exhibit.id_counter = max(Exhibit.id_counter, id + 1)
+    def __init__(self, title, creator, year, description, status, _uid=None, _id=None, **kwargs):
+        self._uid = _uid if _uid else str(uuid.uuid4())
+        if _id is not None:
+            self._id = _id
+            Exhibit.id_counter = max(Exhibit.id_counter, _id + 1)
         else:
             self._id = Exhibit.id_counter
             Exhibit.id_counter += 1
+        
         self.title = title
         self.creator = creator
         self.year = year
@@ -80,11 +81,15 @@ class Museum:
             self.exhibits = []
         
         self.used_ids = set(ex._id for ex in self.exhibits)
+        self.used_uids = set(ex._uid for ex in self.exhibits)
 
     def add_exhibit(self, exhibit):
         if exhibit._id in self.used_ids:
-            raise ValueError(f"ID {exhibit._id} ist bereits vergeben.")
+            raise ValueError(f"ID {exhibit._id} bereits vergeben.")
+        if exhibit._uid in self.used_uids:
+            raise ValueError(f"UID bereits vergeben.")
         self.used_ids.add(exhibit._id)
+        self.used_uids.add(exhibit._uid)
         self.exhibits.append(exhibit)
 
     def list_exhibits(self):
