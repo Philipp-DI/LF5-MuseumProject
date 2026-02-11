@@ -210,7 +210,7 @@ def status_selector(current_status=None):
         if current_status and not user_input:
             return current_status
         try:
-            choice = int(input())
+            choice = int(user_input)
             return Exhibit.STATUS_OPTIONS[choice - 1]
         except (ValueError, IndexError):
             print("Ungültige Eingabe. Nummer aus Liste wählen.")
@@ -288,6 +288,11 @@ def create_gallery(museum: Museum):
         new_gallery = Gallery(name, start, end, location)
         museum.galleries.append(new_gallery)
         print("Galerie wurde erfolgreich angelegt")
+        exit = input("Weitere hinzufügen [a1] oder zurück zum Menü: ").strip().lower()
+        if exit != "1":
+            return
+        else:
+            pass
 
 def show_galleries(museum: Museum):
     if not museum.galleries:
@@ -300,7 +305,6 @@ def show_galleries(museum: Museum):
         idx = int(input("Welche Galerie anzeigen? (Nummer): ")) - 1
         selected_gallery = museum.galleries[idx]
         
-        # Accessing the function inside the Gallery class
         selected_gallery.display_gallery(museum)
     except (ValueError, IndexError):
         print("Ungültige Auswahl.")
