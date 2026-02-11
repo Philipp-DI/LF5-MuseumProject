@@ -105,6 +105,34 @@ class Museum:
             if ex._id == target_id:
                 return ex
         return None
+
+class Gallery:
+    def __init__(self, name, start, end, location) -> None:
+        self.name = name
+        self.start = start
+        self.end = end
+        self.location = location
+        self.exhibit_ids = []
+        
+    def add_ex_to_gallery(self, museum, target_id):
+        exhibit = museum.get_exhibit_by_id(target_id)
+        if not exhibit:
+            print("ID nicht gefunden.")
+            return
+        
+        if exhibit.status == "Ausgestellt":
+            confirm = input(f"Objekt bereits ausgestellt! Trotzdem hinzufügen [j]?: ").strip().lower()
+            if confirm != "j":
+                return
+        
+        if target_id not in self.exhibit_ids:
+            self.exhibit_ids.append(target_id)
+            print(f"{exhibit.title} mit der ID: {exhibit._id} wurde der Gallerie '{self.name}' hinzugefügt.")
+        else:
+            print(f"{exhibit.title} ist bereits Teil dieser Gallerie.")
+    
+    def remove_ex_from_gallery(self, museum, target_id):
+        pass
         
 
 # --- END of CLASSES ---
@@ -149,7 +177,6 @@ def status_selector(current_status=None):
         user_input = input("Wählen oder Enter zum Beibehalten: ").strip()
         if current_status and not user_input:
             return current_status
-        
         try:
             choice = int(input())
             return Exhibit.STATUS_OPTIONS[choice - 1]
