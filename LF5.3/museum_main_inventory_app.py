@@ -95,6 +95,11 @@ class Museum:
     def list_exhibits(self):
         for exhibit in self.exhibits:
             print(exhibit.display_info())
+        choice = input("Zum Starten der Bearbeitung [b] eingeben: ")
+        if choice == "b":
+            update_exhibit_flow(self)
+        else:
+            pass
             
     def get_exhibit_by_id(self, target_id):
         for ex in self.exhibits:
@@ -192,7 +197,7 @@ def search_while_loop(museum):
     else:
         print(f"\nDie Suche mit \"{search_target}\" ergab keine Treffer.")
 
-def edit_exhibit_flow(museum):
+def update_exhibit_flow(museum):
     try:
         target_id = int(input("Welche ID möchten Sie bearbeiten? "))
         exhibit = museum.get_exhibit_by_id(target_id)

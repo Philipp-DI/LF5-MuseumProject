@@ -32,10 +32,10 @@
     {
         "_uid": "5eece6a3-d84f-46bc-a1b4-e17c77f25ded",
         "_id": 4,
-        "title": "Test1",
+        "title": "Test1_bearbeitet",
         "creator": "Frau Testi",
-        "year": 1754,
-        "description": "loooama",
+        "year": 1756,
+        "description": "Hier wurde getestet und Sch\u00f6pfer bei der Bearbeitung leer gelassen",
         "status": "Ausgestellt",
         "kh_epoche": "Klassizismus / Romantik"
     }
