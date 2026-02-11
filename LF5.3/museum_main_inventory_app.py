@@ -127,13 +127,29 @@ class Gallery:
         
         if target_id not in self.exhibit_ids:
             self.exhibit_ids.append(target_id)
-            print(f"{exhibit.title} mit der ID: {exhibit._id} wurde der Gallerie '{self.name}' hinzugefügt.")
+            print(f"{exhibit.title} mit der ID: {exhibit._id} wurde der Galerie '{self.name}' hinzugefügt.")
         else:
-            print(f"{exhibit.title} ist bereits Teil dieser Gallerie.")
+            print(f"{exhibit.title} ist bereits Teil dieser Galerie.")
     
     def remove_ex_from_gallery(self, museum, target_id):
-        pass
+        exhibit = museum.get_exhibit_by_id(target_id)
+        if target_id in self.exhibit_ids:
+            self.exhibit_ids.remove(target_id)
+        if exhibit:
+            print(f"'{exhibit.title}' wurde aus der Galerie entfernt.")
+    
+    def display_gallery(self, museum):
+        print(f"{self.name}:\n")
+        if not self.exhibit_ids:
+            print("Zurzeit keine Objekte hier.")
+            return
         
+        for target_id in self.exhibit_ids:
+            exhibit = museum.get_exhibit_by_id(target_id)
+            if exhibit:
+                print(f"ID: {exhibit._id} --- {exhibit.title}")
+            else:
+                print("ID nicht gefunden.")
 
 # --- END of CLASSES ---
 
