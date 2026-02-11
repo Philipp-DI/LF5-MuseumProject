@@ -36,10 +36,7 @@ class Exhibit:
         self.description = description
         self.status = status
         self.kh_epoche = self.determine_epoch()
-        try:
-            self.year = int(self.year)
-        except ValueError:
-            self.year = self.year  # string is kept if conversion fails
+        self.year_epoch_helper()
     
     def determine_epoch(self):
         if isinstance(self.year, int):
@@ -48,17 +45,20 @@ class Exhibit:
                     return kh_epoche
         return "Unbekannt"
     
+    def year_epoch_helper(self):
+        try:
+            self.year = int(self.year)
+        except ValueError:
+            pass
+        self.kh_epoche = self.determine_epoch()
+    
     def update(self, title, creator, year, description, status, **kwargs):
         self.title = title
         self.creator = creator
         self.year = year
         self.description = description
         self.status = status
-        self.kh_epoche = self.determine_epoch()
-        try:
-            self.year = int(self.year)
-        except ValueError:
-            self.year = self.year  # string is kept if conversion fails
+        self.year_epoch_helper()
 
     def display_info(self):
         return f"ID: {self._id}\n Titel: {self.title}\n Schöpfer: {self.creator}\n Jahr/Epoche: {self.year}\n Beschreibung: {self.description}\n Status: {self.status}\n Kunsthistorische Epoche: {self.kh_epoche}\n"
