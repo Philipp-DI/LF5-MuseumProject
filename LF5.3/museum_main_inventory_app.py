@@ -186,7 +186,7 @@ def search_while_loop(museum):
         print(f"\nSuche mit \"{search_target}\" ergab Treffer:\n{found_exhibit.display_info()}")
     else:
         print(f"\nDie Suche mit \"{search_target}\" ergab keine Treffer.")
- 
+
 def edit_exhibit_flow(museum):
     try:
         target_id = int(input("Welche ID möchten Sie bearbeiten? "))
@@ -196,10 +196,12 @@ def edit_exhibit_flow(museum):
             print(f"Bearbeite: {exhibit.title}")
             # Re-use the input logic to get new values
             new_title = input(f"Neuer Titel [{exhibit.title}]: ") or exhibit.title
-            # ... repeat for other fields ...
-            
+            new_creator = input(f"Neuer Schöpfer [{exhibit.creator}]: ") or exhibit.creator
+            new_year = input(f"Neues Jahr [{exhibit.year}]: ") or exhibit.year
+            new_description = input(f"Neue Beschreibung [{exhibit.description}]: ") or exhibit.description
+            new_status = input(f"Neuer Status [{exhibit.status}]: ") or exhibit.status
             # Call the renovation method we discussed
-            exhibit.update(new_title, ...) 
+            exhibit.update(new_title, new_creator, new_year, new_description, new_status) 
             print("Änderungen gespeichert.")
         else:
             print("ID nicht gefunden.")
