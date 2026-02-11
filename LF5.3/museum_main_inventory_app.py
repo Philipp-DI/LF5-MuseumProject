@@ -78,6 +78,7 @@ class Museum:
         except (FileNotFoundError, js.JSONDecodeError):
             print("Keine valide Exponatliste gefunden. Starte leer.")
             self.exhibits = []
+            self.galleries = []
         
         self.used_ids = set(ex._id for ex in self.exhibits)
         self.used_uids = set(ex._uid for ex in self.exhibits)
@@ -158,20 +159,23 @@ def run_inventory_app():
     museum = Museum()
 
     while True:
-        print("\nCLI-based Museum Inventory App")
-        print("[a] Exponat hinzufügen")
-        print("[s] Exponat suchen")
-        print("[l] Alle Exponate anzeigen oder editieren")
-        print("[q] Speichern & Programm beenden")
+        print("\n🧭>> CLI-based Museum Inventory App <<🧭")
+        print("[1] Exponat hinzufügen")
+        print("[2] Exponat suchen")
+        print("[3] Alle Exponate anzeigen und/oder editieren")
+        print("[4] Galerie erstellen oder bearbeiten")
+        print("[Q] Speichern & Programm beenden")
 
-        choice = input("Auswahl (a/s/l/q): ").strip().lower()
+        choice = input("Auswahl: ").strip().lower()
 
-        if choice == "a":
+        if choice == "1":
             add_exhibits_flow(museum)
-        elif choice == "s":
+        elif choice == "2":
             search_while_loop(museum)
-        elif choice == "l":
+        elif choice == "3":
             museum.list_exhibits()
+        elif choice == "4":
+            gallery_flow(museum)
         elif choice == "q":
             # saving
             js.dump(
@@ -182,7 +186,7 @@ def run_inventory_app():
             print("Programm wird beendet.")
             break
         else:
-            print("Ungültige Eingabe. Bitte a, s, l oder q wählen.")
+            print("Ungültige Eingabe.")
 
 def status_selector(current_status=None):
     suffix = f" [Aktueller Status: {current_status}]" if current_status else ""
@@ -216,7 +220,7 @@ def add_exhibits_flow(museum: Museum):
         else:
             pass
 
-def search_while_loop(museum):
+def search_while_loop(museum: Museum):
     search_target = input("Suchbegriff eingeben: ").lower()
     index = 0
     found_exhibit = None 
@@ -238,7 +242,7 @@ def search_while_loop(museum):
     else:
         print(f"\nDie Suche mit \"{search_target}\" ergab keine Treffer.")
 
-def update_exhibit_flow(museum):
+def update_exhibit_flow(museum: Museum):
     try:
         target_id = int(input("Welche ID möchten Sie bearbeiten? "))
         exhibit = museum.get_exhibit_by_id(target_id)
@@ -259,5 +263,83 @@ def update_exhibit_flow(museum):
     except ValueError:
         print("Bitte eine gültige Nummer eingeben.")  
     
+def create_gallery(museum: Museum):
+    while True:
+        name = input("Name der Galerie: ")
+        if not name:
+            print("Name darf nicht leer sein!")
+            return
+        start = input("Startdatum: ")
+        end = input("Enddatum: ")
+        location = input("Ort: ")
+        
+        new_gallery = Gallery(name, start, end, location)
+        museum.galleries.append(new_gallery)
+        print("Galerie wurde erfolgreich angelegt")
+
+def show_galleries(museum: Museum):
+    if not museum.galleries:
+        print("Es existieren noch keine Galerien.")
+        return
+    print("\nVerfügbare Galerien:")
+    for i, gal in enumerate(museum.galleries, 1):
+        print(f"[{i}] {gal.name}")
+    try:
+        idx = int(input("Welche Galerie anzeigen? (Nummer): ")) - 1
+        selected_gallery = museum.galleries[idx]
+        
+        # Accessing the function inside the Gallery class
+        selected_gallery.display_gallery(museum)
+    except (ValueError, IndexError):
+        print("Ungültige Auswahl.")
+        
+def add_to_gallery(museum: Museum):
+    if not museum.galleries:
+        print("Es existieren noch keine Galerien.")
+        new = input("Jetzt eine neue Galerie erstellen? [j]")
+        if new != "j":
+            return
+        else:
+            create_gallery(museum)
+            
+    print("\nVerfügbare Galerien:")
+    for i, gal in enumerate(museum.galleries, 1):
+        print(f"[{i}] {gal.name}")
+    try:
+        idx = int(input("Welche Galerie bearbeiten? (Nummer): ")) - 1
+        selected_gallery = museum.galleries[idx]
+        add_or_del = input(f"[1] Objekte der Galerie '{selected_gallery}' hinzufügen\n[2] Objekte aus '{selected_gallery} entfernen").strip().lower()
+        if add_or_del == "1":    
+            selected_gallery.add_ex_to_gallery(museum)
+        elif add_or_del == "2":
+            selected_gallery.remove_ex_from_gallery(museum)
+        else:
+            print("Ungütlige Auswahl.")
+            return
+    except (ValueError, IndexError):
+        print("Ungültige Auswahl.")
+        
+def gallery_flow(museum: Museum):
+    while True:
+        print("\n🖼️>> Galerie-Verwaltung <<🖼️")
+        print("[1] Neue Galerie erstellen")
+        print("[2] Galerie-Inhalt anzeigen")
+        print("[3] Exponat einer Galerie hinzufügen")
+        print("[H] Zurück zum Hauptmenü")
+        
+        choice = input("Auswahl: ").strip().lower()
+
+        if choice == "1":
+            create_gallery(museum)
+        elif choice == "2":
+            show_galleries(museum)
+        elif choice == "3":
+            add_to_gallery(museum)
+        elif choice == "h":
+            break
+        else:
+            print("Ungültige Auswahl.")
+            return
+
 if __name__ == "__main__":
     run_inventory_app()
