@@ -64,21 +64,24 @@ class Exhibit:
     
 class Museum:
     def __init__(self):
+        self.exhibits = []
+        self.galleries = []
         try:
             with open("museum_exhibits.json", "r") as f:
-                raw_data = js.load(f)
-                # Hier passiert die Magie: Wir wandeln jedes Dict wieder in ein Objekt um
-                self.exhibits = []
-                for data in raw_data:
-                    # Wir entpacken das Dictionary mit ** direkt in den Konstruktor
-                    obj = Exhibit(**data)
-                    self.exhibits.append(obj)
-                
-                print(f"{len(self.exhibits)} Exponate geladen.")
+                data = js.load(f)
+                # If old format (list), handle gracefully
+                if isinstance(data, list):
+                    self.exhibits = [Exhibit(**d) for d in data]
+                else:
+                    # New format (dict)
+                    self.exhibits = [Exhibit(**d) for d in data.get("exhibits", [])]
+                    for g_data in data.get("galleries", []):
+                        gal = Gallery(g_data["name"], g_data["start"], g_data["end"], g_data["location"])
+                        gal.exhibit_ids = g_data["exhibit_ids"]
+                        self.galleries.append(gal)
+                print(f"{len(self.exhibits)} Exponate und {len(self.galleries)} Galerien geladen.")
         except (FileNotFoundError, js.JSONDecodeError):
-            print("Keine valide Exponatliste gefunden. Starte leer.")
-            self.exhibits = []
-            self.galleries = []
+            print("Nichts gefunden. Starte leer.")
         
         self.used_ids = set(ex._id for ex in self.exhibits)
         self.used_uids = set(ex._uid for ex in self.exhibits)
@@ -177,13 +180,22 @@ def run_inventory_app():
         elif choice == "4":
             gallery_flow(museum)
         elif choice == "q":
-            # saving
-            js.dump(
-                [exhibit.__dict__ for exhibit in museum.exhibits],
-                open("museum_exhibits.json", "w"),
-                indent=4,
-            )
-            print("Programm wird beendet.")
+            # The "Envelope" structure
+            full_inventory = {
+                "exhibits": [ex.__dict__ for ex in museum.exhibits],
+                "galleries": [
+                    {
+                        "name": gal.name, 
+                        "start": gal.start, 
+                        "end": gal.end, 
+                        "location": gal.location, 
+                        "exhibit_ids": gal.exhibit_ids
+                    } for gal in museum.galleries
+                ]
+            }
+            with open("museum_inventory.json", "w") as f:
+                js.dump(full_inventory, f, indent=4)
+            print("Daten gespeichert. Programm beendet!")
             break
         else:
             print("Ungültige Eingabe.")
@@ -308,7 +320,7 @@ def add_to_gallery(museum: Museum):
     try:
         idx = int(input("Welche Galerie bearbeiten? (Nummer): ")) - 1
         selected_gallery = museum.galleries[idx]
-        add_or_del = input(f"[1] Objekte der Galerie '{selected_gallery}' hinzufügen\n[2] Objekte aus '{selected_gallery} entfernen").strip().lower()
+        add_or_del = input(f"[1] Objekte der Galerie '{selected_gallery.name}' hinzufügen\n[2] Objekte aus '{selected_gallery.name} entfernen").strip().lower()
         if add_or_del == "1":    
             selected_gallery.add_ex_to_gallery(museum)
         elif add_or_del == "2":
