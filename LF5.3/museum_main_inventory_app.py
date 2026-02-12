@@ -119,10 +119,6 @@ class Gallery:
         self.exhibit_ids = []
         
     def add_ex_to_gallery(self, museum, target_id):
-        try:
-            target_id = int(input("Welche Exponat-ID möchten Sie hinzufügen? "))
-        except ValueError:
-            print("Ungültige Eingabe.")
         exhibit = museum.get_exhibit_by_id(target_id)
         if not exhibit:
             print("ID nicht gefunden.")
@@ -143,11 +139,14 @@ class Gallery:
         exhibit = museum.get_exhibit_by_id(target_id)
         if target_id in self.exhibit_ids:
             self.exhibit_ids.remove(target_id)
+        else:
+            print("ID nicht in Galerie gefunden!")
+            return
         if exhibit:
             print(f"'{exhibit.title}' wurde aus der Galerie entfernt.")
     
     def display_gallery(self, museum):
-        print(f"{self.name}:\n")
+        print(f"---- {self.name} ----")
         if not self.exhibit_ids:
             print("Zurzeit keine Objekte hier.")
             return
@@ -330,25 +329,39 @@ def add_to_gallery(museum: Museum):
         selected_gallery = museum.galleries[idx]
         add_or_del = input(f"[1] Objekte der Galerie '{selected_gallery.name}' hinzufügen\n[2] Objekte aus '{selected_gallery.name}' entfernen\n").strip().lower()
         if add_or_del == "1":
-            selected_gallery.add_ex_to_gallery(museum)
+            print(f"Liste der Exponate:\n")
+            for exhibit in museum.exhibits:
+                print(exhibit.display_info())
+            try:
+                target_id = int(input("Welche Exponat-ID möchten Sie hinzufügen? "))
+            except ValueError:
+                print("Ungültige Eingabe.")
+                return
+            selected_gallery.add_ex_to_gallery(museum, target_id)
         elif add_or_del == "2":
-            selected_gallery.remove_ex_from_gallery(museum)
+            print(f"In '{selected_gallery.name}' befinden sich:\n")
+            selected_gallery.display_gallery(museum)
+            try:
+                target_id = int(input("Welche Exponat-ID möchten Sie entfernen? "))
+            except ValueError:
+                print("Ungültige Eingabe.")
+                return
+            selected_gallery.remove_ex_from_gallery(museum, target_id)
         else:
-            print("Ungütlige Auswahl.")
+            print("Ungültige Auswahl.")
             return
     except (ValueError, IndexError):
         print("Ungültige Auswahl.")
         
 def gallery_flow(museum: Museum):
     while True:
-        print("\n🖼️ >> Galerie-Verwaltung << 🖼️")
+        print("\n>> 🖼️ Galerie-Verwaltung 🖼️ <<")
         print("[1] Neue Galerie erstellen")
         print("[2] Galerie-Inhalt anzeigen")
-        print("[3] Exponat einer Galerie hinzufügen")
+        print("[3] Exponat einer Galerie hinzufügen oder entfernen")
         print("[H] Zurück zum Hauptmenü")
         
         choice = input("Auswahl: ").strip().lower()
-
         if choice == "1":
             create_gallery(museum)
         elif choice == "2":

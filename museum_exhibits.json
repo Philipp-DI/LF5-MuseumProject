@@ -47,7 +47,19 @@
             "start": "",
             "end": "",
             "location": "",
-            "exhibit_ids": []
+            "exhibit_ids": [
+                3
+            ]
+        },
+        {
+            "name": "test2",
+            "start": "20.02.2045",
+            "end": "never",
+            "location": "Baumhaus",
+            "exhibit_ids": [
+                4,
+                1
+            ]
         }
     ]
 }
