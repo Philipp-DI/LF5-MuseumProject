@@ -138,6 +138,10 @@ class Gallery:
     def remove_ex_from_gallery(self, museum, target_id):
         exhibit = museum.get_exhibit_by_id(target_id)
         if target_id in self.exhibit_ids:
+            confirm = input(f"Exponat {target_id} wirklich aus '{self.name}' entfernen? [j/n]: ").strip().lower()
+            if confirm != "j":
+                print("Vorgang abgebrochen.")
+                return
             self.exhibit_ids.remove(target_id)
         else:
             print("ID nicht in Galerie gefunden!")
@@ -306,11 +310,14 @@ def show_galleries(museum: Museum):
         print(f"[{i}] {gal.name}")
     try:
         idx = int(input("Welche Galerie anzeigen? (Nummer): ")) - 1
+        if idx <= 0 or idx >= len(museum.galleries):
+            print("Ungültige Auswahl.")
+            return
         selected_gallery = museum.galleries[idx]
-        
         selected_gallery.display_gallery(museum)
     except (ValueError, IndexError):
         print("Ungültige Auswahl.")
+        return
         
 def add_to_gallery(museum: Museum):
     if not museum.galleries:
@@ -326,9 +333,15 @@ def add_to_gallery(museum: Museum):
         print(f"[{i}] {gal.name}")
     try:
         idx = int(input("Welche Galerie bearbeiten? (Nummer): ")) - 1
+        if idx <= 0 or idx >= len(museum.galleries):
+            print("Ungültige Auswahl.")
+            return
         selected_gallery = museum.galleries[idx]
         add_or_del = input(f"[1] Objekte der Galerie '{selected_gallery.name}' hinzufügen\n[2] Objekte aus '{selected_gallery.name}' entfernen\n").strip().lower()
         if add_or_del == "1":
+            if not museum.exhibits:
+                print("Es gibt noch keine Exponate im Museum. Bitte zuerst Exponate anlegen.")
+                return
             print(f"Liste der Exponate:\n")
             for exhibit in museum.exhibits:
                 print(exhibit.display_info())
