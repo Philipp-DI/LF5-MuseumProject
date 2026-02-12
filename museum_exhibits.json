@@ -1,42 +1,53 @@
-[
-    {
-        "_uid": "e2d71abd-ca7d-4d18-8536-cf4c5375c6ca",
-        "_id": 1,
-        "title": "R\u00f6mische M\u00fcnze",
-        "creator": "",
-        "year": 150,
-        "description": "Gefunden 1988, schlechter Zustand, gr\u00fcnspan",
-        "status": "Im Lager",
-        "kh_epoche": "Antike"
-    },
-    {
-        "_uid": "53a9cf5e-58a5-486c-9b2c-7798764d9026",
-        "_id": 2,
-        "title": "Spinnrad",
-        "creator": "Unbekannt",
-        "year": "Unbekannt",
-        "description": "Guter Zustand, perfekt f\u00fcr Handwerksausstellung",
-        "status": "Im Lager",
-        "kh_epoche": "Unbekannt"
-    },
-    {
-        "_uid": "823319fb-2930-4a31-8470-9886edca9e8c",
-        "_id": 3,
-        "title": "B\u00fcrgermeister-Urkunde",
-        "creator": "Stadt",
-        "year": 1888,
-        "description": "Feuchtigkeitsschaden, Spende von Fam. Schmidt",
-        "status": "Im Lager",
-        "kh_epoche": "Realismus"
-    },
-    {
-        "_uid": "5eece6a3-d84f-46bc-a1b4-e17c77f25ded",
-        "_id": 4,
-        "title": "Test1_bearbeitet",
-        "creator": "Frau Testi",
-        "year": 1756,
-        "description": "Hier wurde getestet und Sch\u00f6pfer bei der Bearbeitung leer gelassen",
-        "status": "Ausgestellt",
-        "kh_epoche": "Klassizismus / Romantik"
-    }
-]
+{
+    "exhibits": [
+        {
+            "_uid": "e2d71abd-ca7d-4d18-8536-cf4c5375c6ca",
+            "_id": 1,
+            "title": "R\u00f6mische M\u00fcnze",
+            "creator": "",
+            "year": 150,
+            "description": "Gefunden 1988, schlechter Zustand, gr\u00fcnspan",
+            "status": "Im Lager",
+            "kh_epoche": "Antike"
+        },
+        {
+            "_uid": "53a9cf5e-58a5-486c-9b2c-7798764d9026",
+            "_id": 2,
+            "title": "Spinnrad",
+            "creator": "Unbekannt",
+            "year": "Unbekannt",
+            "description": "Guter Zustand, perfekt f\u00fcr Handwerksausstellung",
+            "status": "Im Lager",
+            "kh_epoche": "Unbekannt"
+        },
+        {
+            "_uid": "823319fb-2930-4a31-8470-9886edca9e8c",
+            "_id": 3,
+            "title": "B\u00fcrgermeister-Urkunde",
+            "creator": "Stadt",
+            "year": 1888,
+            "description": "Feuchtigkeitsschaden, Spende von Fam. Schmidt",
+            "status": "Im Lager",
+            "kh_epoche": "Realismus"
+        },
+        {
+            "_uid": "5eece6a3-d84f-46bc-a1b4-e17c77f25ded",
+            "_id": 4,
+            "title": "Test1_bearbeitet",
+            "creator": "Frau Testi",
+            "year": 1756,
+            "description": "Hier wurde getestet und Sch\u00f6pfer bei der Bearbeitung leer gelassen",
+            "status": "Ausgestellt",
+            "kh_epoche": "Klassizismus / Romantik"
+        }
+    ],
+    "galleries": [
+        {
+            "name": "rezdf",
+            "start": "",
+            "end": "",
+            "location": "",
+            "exhibit_ids": []
+        }
+    ]
+}

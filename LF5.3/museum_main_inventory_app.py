@@ -119,6 +119,10 @@ class Gallery:
         self.exhibit_ids = []
         
     def add_ex_to_gallery(self, museum, target_id):
+        try:
+            target_id = int(input("Welche Exponat-ID möchten Sie hinzufügen? "))
+        except ValueError:
+            print("Ungültige Eingabe.")
         exhibit = museum.get_exhibit_by_id(target_id)
         if not exhibit:
             print("ID nicht gefunden.")
@@ -193,7 +197,7 @@ def run_inventory_app():
                     } for gal in museum.galleries
                 ]
             }
-            with open("museum_inventory.json", "w") as f:
+            with open("museum_exhibits.json", "w") as f:
                 js.dump(full_inventory, f, indent=4)
             print("Daten gespeichert. Programm beendet!")
             break
@@ -288,7 +292,7 @@ def create_gallery(museum: Museum):
         new_gallery = Gallery(name, start, end, location)
         museum.galleries.append(new_gallery)
         print("Galerie wurde erfolgreich angelegt")
-        exit = input("Weitere hinzufügen [a1] oder zurück zum Menü: ").strip().lower()
+        exit = input("Weitere hinzufügen [1] oder zurück zum Menü: ").strip().lower()
         if exit != "1":
             return
         else:
@@ -324,8 +328,8 @@ def add_to_gallery(museum: Museum):
     try:
         idx = int(input("Welche Galerie bearbeiten? (Nummer): ")) - 1
         selected_gallery = museum.galleries[idx]
-        add_or_del = input(f"[1] Objekte der Galerie '{selected_gallery.name}' hinzufügen\n[2] Objekte aus '{selected_gallery.name} entfernen").strip().lower()
-        if add_or_del == "1":    
+        add_or_del = input(f"[1] Objekte der Galerie '{selected_gallery.name}' hinzufügen\n[2] Objekte aus '{selected_gallery.name}' entfernen\n").strip().lower()
+        if add_or_del == "1":
             selected_gallery.add_ex_to_gallery(museum)
         elif add_or_del == "2":
             selected_gallery.remove_ex_from_gallery(museum)
@@ -337,7 +341,7 @@ def add_to_gallery(museum: Museum):
         
 def gallery_flow(museum: Museum):
     while True:
-        print("\n🖼️>> Galerie-Verwaltung <<🖼️")
+        print("\n🖼️ >> Galerie-Verwaltung << 🖼️")
         print("[1] Neue Galerie erstellen")
         print("[2] Galerie-Inhalt anzeigen")
         print("[3] Exponat einer Galerie hinzufügen")
