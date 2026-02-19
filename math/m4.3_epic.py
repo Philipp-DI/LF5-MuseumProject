@@ -105,6 +105,7 @@ class Server:
         # Feste Diagramm-Teile werden nur einmal außerhalb der Schleifen konstruiert
         plt.xlabel("Ping")
         plt.ylabel("Antwortzeit (ms)")
+        plt.legend()
         plt.grid(True)
         plt.show()
 
