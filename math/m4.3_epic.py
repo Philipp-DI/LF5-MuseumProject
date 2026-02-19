@@ -109,7 +109,7 @@ class Server:
         plt.grid(True)
         plt.show()
 
-# Hilfsfunktion zum Erstellen einer "zufälligen" Liste            
+# Hilfsfunktion zum Erstellen einer "zufälligen" Liste        
 def zufalls_zeiten():
     zufallszeiten: list[int] = [rd.randint(10, 300) for _ in range(10)]
     return zufallszeiten
