@@ -1,0 +1,11 @@
+<database>
+    <!-- using attributes -->
+    <exhibit id="1" title="Coin of Honor" year="1870">
+    </exhibit>
+    <!-- avoid using attributes -->
+    <exhibit>
+        <id>1</id>
+        <title>Coin of Honor</title>
+        <year>1870</year>
+    </exhibit>
+</database>

@@ -1,0 +1,10 @@
+{
+    "database": [
+        {
+        "type": "exhibit",
+        "id": "1",
+        "title": "Coin of Honor",
+        "year": "1870"
+        }
+    ]
+}

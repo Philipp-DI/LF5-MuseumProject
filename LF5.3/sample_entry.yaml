@@ -1,0 +1,7 @@
+database:
+ exhibit:
+  - id: 1
+    title: Coin of Honor
+    year: 1870
+  - id: 2
+#etc
