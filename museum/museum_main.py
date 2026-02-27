@@ -42,7 +42,7 @@ class Museum:
             try:
                 with open("museum_exhibits.json", "r") as f:
                     raw_data = js.load(f)
-                    # Hier passiert die Magie: Wir wandeln jedes Dict wieder in ein Objekt um
+                    # Wir wandeln jedes Dict wieder in ein Objekt um
                     self.exhibits = []
                     for data in raw_data:
                         # Wir entpacken das Dictionary mit ** direkt in den Konstruktor
