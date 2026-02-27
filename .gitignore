@@ -1,24 +1,35 @@
-# .gitignore
 package.json
 
-# Ignore Python byte-code
 __pycache__/
 *.py[cod]
 
-# Ignore Virtual Environments
 .venv/
 venv/
 env/
 
-# Ignore sensitive info
 .env
 
-# Ignore OS-generated files
 .DS_Store
 .vscode
 node_modules/
 *.log
 
-# Other Files
 sorting_log.txt
 .qodo
+crit.js
+crit.py
+damage_comparison_results.csv
+dps_3d_surface.png
+dps_heatmap.png
+DPSClalcBasic.xlsx
+DPScompare.py
+haupt.py
+modul.py
+museum_exhibits.json
+package-lock.json
+package.json
+sorting_log.txt
+sorting.log
+Sorting.py
+tsconfig.json
+WuWa_Iuno.csv

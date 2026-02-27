@@ -118,14 +118,14 @@ def zufalls_zeiten():
 server_a = Server("Server A", [20, 85, 18, 92, 25, 15, 28, 88, 21, 23])
 server_b = Server("Server B", [45, 42, 48, 40, 46, 41, 49, 43, 47, 44])
 # Optionale bzw. zusätzliche Server zur Veranschaulichung
-#file_server = Server("File Server", zufalls_zeiten())
-#dns_server = Server("DNS Server", zufalls_zeiten())
-#cloud_server = Server("Cloud Server", zufalls_zeiten())
+file_server = Server("File Server", zufalls_zeiten())
+dns_server = Server("DNS Server", zufalls_zeiten())
+cloud_server = Server("Cloud Server", zufalls_zeiten())
 
 
 # Was hier drüber passiert ist IMMER da, auch wenn ich dieses Programm an anderer Stelle importiere/nutze.
 if __name__ == "__main__": # Alles ab hier wird nur IN diesem Programm ausgeführt.
     Server.print_all_data()
     Server.zeige_besten_server()
-    #Server.plot_auswahl([]) # Bei leerer Liste (ohne Auswahl werden alle Server geplottet)
+    Server.plot_auswahl([]) # Bei leerer Liste (ohne Auswahl werden alle Server geplottet) 
     Server.plot_auswahl([server_b, server_a])
