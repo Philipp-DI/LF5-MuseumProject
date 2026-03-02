@@ -23,7 +23,7 @@ class Schadensszenario:
     def anzeige(cls):
         mw, med, sum_e, mw_p, total = cls.statistik()
         print(f"Gesamtanzahl der Szenarios: {len(all_data)}\n")
-        print(f"{'Event':<14} | {'Schadenssumme':^15} | {'P':^6} | {'Erwartungswert':^16} | {'Anteil am erwartetenden Gesamtschaden':>20}")
+        print(f"{'Event':<14} | {'Schadenssumme':^15} | {'P':^6} | {'Erwartungswert':^16} | {'Anteil am erwarteten Gesamtschaden':>20}")
         print('='*100)
         for s in all_data:
             print(f"{s.titel:<14} | {s.schadenssumme:>13} € | {s.prob:>6.1%} | {s.expected_dmg:>14.2f} € | {s.expected_dmg / sum_e:<20.2%}")
