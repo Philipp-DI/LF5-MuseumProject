@@ -23,12 +23,14 @@ class Schadensszenario:
     def anzeige(cls):
         mw, med, sum_e, mw_p, total = cls.statistik()
         print(f"Gesamtanzahl der Szenarios: {len(all_data)}\n")
-        print(f"{'Event':<14} | {'Schadenssumme':^13} | {'P':^6} | {'Erwartungswert':^14} | {'Anteil am erwartetenden Gesamtschaden':>20}")
+        print(f"{'Event':<14} | {'Schadenssumme':^15} | {'P':^6} | {'Erwartungswert':^16} | {'Anteil am erwartetenden Gesamtschaden':>20}")
         print('='*100)
         for s in all_data:
-            print(f"{s.titel:<14} | {s.schadenssumme:>13} | {s.prob:>6.1%} | {s.expected_dmg:>14.2f} | {s.expected_dmg / sum_e:<20.2%}")
+            print(f"{s.titel:<14} | {s.schadenssumme:>13} € | {s.prob:>6.1%} | {s.expected_dmg:>14.2f} € | {s.expected_dmg / sum_e:<20.2%}")
         print('-'*100)
-        print(f"{'Gesamt:':<14} | {total:>13} | {sum(s.prob for s in all_data):>6.1%} | {sum_e:>14.2f} | {sum((s.expected_dmg / sum_e) for s in all_data):<20.2%}")
+        print(f"{'Gesamt:':<14} | {total:>13} € | {sum(s.prob for s in all_data):>6.1%} | {sum_e:>14.2f} € | {sum((s.expected_dmg / sum_e) for s in all_data):<20.2%}\n")
+        
+        print(f"{'Mittelwerte & Co:'} MW Gesamtschaden: {mw:.2f} €, MED: {med:.2f} € | MW Wahrscheinlichkeiten: {mw_p:.1%} | MW zu erwartender Schaden: {stats.fmean(s.expected_dmg for s in all_data):.2f} €")
 
 # Szenarios, Wahrscheinlichkeiten stellen 1 Fall pro Jahr dar:
 data = [
