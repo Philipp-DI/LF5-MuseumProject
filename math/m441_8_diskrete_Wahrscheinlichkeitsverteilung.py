@@ -14,14 +14,14 @@ def normalisieren(data):
 normiert = normalisieren(CHANCES['probs'])
 pruef = sum(normiert.values())
 
-# Optionale Bedingung: Diagramm wird nur erstellt, wenn Gesamt P = 1
-if sum(normiert.values()) == 1:
+# Optionale Bedingung: Diagramm wird nur erstellt, wenn Gesamt P = 1, float-Fehler werden "umgangen" (ungenau)
+if 0.9 <= sum(normiert.values()) <= 1.1:
     # Daten parsen
     x_keys = list(normiert.keys())
     y_probabilities = list(normiert.values())
 
     # Diagram ab hier:
-    plot.stem(range(len(x_keys)), y_probabilities)
+    plot.bar(range(len(x_keys)), y_probabilities)
     for index, v in enumerate(y_probabilities):
         plot.text(index, v + 0.02, str(f"{v:.3f}"), ha='center')
     plot.xticks(range(len(x_keys)), x_keys)
