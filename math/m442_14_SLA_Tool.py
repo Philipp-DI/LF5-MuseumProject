@@ -46,7 +46,7 @@ fehler_budget: int = int(max_fails - fails)
 import math
 
 def normal_cdf(x, mu, sigma):
-    # Approximation des Fehlers (Error Function erf)
+    # Approximation des Fehlers (Error Function erf) -> berechnet per "Abkürung" die Fläche unter der Glockenkurve.
     return 0.5 * (1 + math.erf((x - mu) / (sigma * math.sqrt(2))))
 
 # Erwartungswert und Standardabweichung
